@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const slugify = require('slugify');
+const cors = require('cors');
 
 const connection = require('./database/connection');
 connection.authenticate().then(() => {
@@ -11,11 +12,14 @@ connection.authenticate().then(() => {
 });
 const Games = require("./database/Games");
 
+//CONFIG CORS
+app.use(cors());
 
+// CONFIG BODY-PARSER
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-
+//END POINT GET
 app.get("/games", (req, res) => {
     res.statusCode = 200 
     Games.findAll().then(all => {
@@ -39,6 +43,7 @@ app.get("/game/:id", (req, res) => {
     }
 })
 
+//END POINT POST
 app.post("/game", (req, res) => {
     const {name, price} = req.body;
     
@@ -54,6 +59,7 @@ app.post("/game", (req, res) => {
     }
 })
 
+//END POINT DELETE
 app.delete("/game/:id", (req, res) => {
     const id = req.params.id;
     if(!isNaN(id)){
@@ -68,6 +74,7 @@ app.delete("/game/:id", (req, res) => {
     }
 })
 
+//END POINT PUT - UPDATE
 app.put("/game/:id", (req, res) => {
     const id = req.params.id;
     const {name, price} = req.body;

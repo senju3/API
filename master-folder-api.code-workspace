@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../CONSUMO DE API"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "CONSUMO DE API"
+	}
+}
