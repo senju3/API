@@ -3,6 +3,10 @@ const app = express();
 const bodyParser = require("body-parser");
 const slugify = require('slugify');
 const cors = require('cors');
+const bcrypt = require("bcryptjs");
+const Login = require("./database/Login");
+
+//const Login = require("./database/loginController")
 
 const connection = require('./database/connection');
 connection.authenticate().then(() => {
@@ -119,6 +123,29 @@ app.put("/game/:id", (req, res) => {
    
 })
 
+
+
+app.post("/user/create", (req, res) => {
+    const {email, password} = req.body;
+    console.log(email, password)
+
+    Login.findOne({where: {email: email}}).then(user => {
+        if(user == undefined){
+            let salt = bcrypt.genSaltSync(10);
+            let hash = bcrypt.hashSync(password, salt);
+
+            Login.create({
+                email: email,
+                password: hash
+            }).then(() => {
+                res.redirect('/games')
+            }).catch(error => {
+                res.redirect('/login.html')
+                console.log(error)
+            })
+        }
+    })
+})
 
 app.listen(8080, () => {
     console.log("API rodando !")

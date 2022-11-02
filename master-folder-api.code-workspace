@@ -4,7 +4,8 @@
 			"path": "."
 		},
 		{
-			"path": "../CONSUMO DE API"
+			"name": "CONSUMO-DE-API",
+			"path": "../CONSUMO-DE-API"
 		}
 	],
 	"settings": {
